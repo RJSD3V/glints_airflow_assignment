@@ -38,5 +38,5 @@ with the following functions that support it:
 
 
 Note: This project has been prepared considering I have very little experience
-with docker and airflow. 
+with docker and airflow. Most of my experience lies in the areas of building pipelines and understanding data. 
 
