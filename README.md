@@ -1,6 +1,6 @@
 # Data Pipeline Project for Glints Interview Process.
 
-The root folder needs to be ``` src```
+The root folder needs to be ``` venv/src```
 
 If you just run the command 
 ```commandline
