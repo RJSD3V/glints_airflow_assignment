@@ -1,0 +1,54 @@
+version: '3.7'
+services:
+
+
+  postgres_x:
+    image: postgres:9.6
+    expose:
+      - 5432
+    ports:
+      - 5432:5432
+    env_file:
+      - .env
+    restart: always
+    build: ./glints_x/
+    healthcheck:
+      test: /usr/bin/pg_isready
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    volumes:
+      - ./glints_x/sql/create_table.sql:/docker-entrypoint-initdb.d/init.sql
+
+  postgres_y:
+    image: postgres:9.6
+    expose:
+      - 5431
+    ports:
+      - 5431:5431
+    env_file:
+      - .env
+    restart: always
+    build: ./glints_y/
+    healthcheck:
+      test: /usr/bin/pg_isready
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    volumes:
+      - ./glints_x/sql/create_table.sql:/docker-entrypoint-initdb.d/init.sql
+
+
+
+  webserver:
+    build: ./dockerfiles
+    restart: always
+    depends_on:
+      - postgres_x
+      - postgres_y
+    environment:
+      - LOAD_EX=n
+      - EXECUTOR=Local
+    ports:
+      - "5884:8080"
+    command: webserver
